@@ -15,11 +15,15 @@
         internal Anchor TogglePrintPreviewAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_togglePrintPreview']");
         internal Anchor ExportPdf => Element.CreateByXpath<Anchor>("//a[@data-command-parameter='PDF']");
         internal Anchor PrintAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_print']");
+        internal Anchor ToggleSearchAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_toggleSearchDialog']");
+
+        internal TextField SearchInput => Element.CreateByClass<TextField>("k-input");
+        internal Span SearchResults => Element.CreateByClass<Span>("trv-search-dialog-results-label");
+        internal Div TooltipActionMessage => Element.CreateByClass<Div>("trv-error-message");
+
         internal Div TotalPageLoadedMessage(int totalPages)
         {
-              return Element.CreateByXpath<Div>($"//div[text()='Done. Total {totalPages} pages loaded.']");
+            return Element.CreateByXpath<Div>($"//div[text()='Done. Total {totalPages} pages loaded.']");
         }
-
-        internal Div TooltipActionMessage => Element.CreateByClass<Div>("trv-error-message");
     }
 }

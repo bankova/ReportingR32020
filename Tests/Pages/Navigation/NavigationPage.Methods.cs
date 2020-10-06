@@ -1,16 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
 using System.Text;
 
 namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
     public partial class NavigationPage
     {
-        public void AssertCurrentPageNumberIs(int expectedPage)
+        internal int GetWindowCount()
         {
-            System.Threading.Thread.Sleep(200);
-            int actualPage = (int)CurrentPageNumber.GetNumber();
-            Assert.AreEqual(expectedPage, actualPage);
+            object[] allWindows = Browser.WrappedDriver.WindowHandles.ToArray();
+            return allWindows.Length;
+        }
+
+        internal void WaitForNewBrowserWindowToConnect()
+        {
+            int countofWindows = GetWindowCount();
+            int expectedNewWindowsCount = countofWindows + 1;
+
+            while (countofWindows < expectedNewWindowsCount)
+            {
+                System.Threading.Thread.Sleep(100);
+                countofWindows = GetWindowCount();
+            }
         }
     }
 }
