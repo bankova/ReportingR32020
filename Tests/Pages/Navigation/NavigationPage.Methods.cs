@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using OpenQA.Selenium;
 
 namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
@@ -24,6 +25,15 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
                 System.Threading.Thread.Sleep(100);
                 countofWindows = GetWindowCount();
             }
+        }
+
+        internal void SetPage(int pageNumber)
+        {
+            InteractionsService service = new InteractionsService();
+
+            CurrentPageNumber.SetNumber(pageNumber);
+            CurrentPageNumber.Focus();
+            service.SendKeys(Keys.Enter).Perform();
         }
     }
 }

@@ -8,9 +8,14 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
     public partial class NavigationPage
     {
-        internal void AssertMessageLoadedPageNumber(int totalPagesCount)
+        internal void WaitMessageLoadedPagesVisible(int totalPagesCount)
         {
             TotalPageLoadedMessage(totalPagesCount).ToBeVisible().WaitToBe();
+        }
+
+        internal void WaitMessageLoadedPagesNotVisible(int totalPagesCount)
+        {
+            TotalPageLoadedMessage(totalPagesCount).ToNotBeVisible().WaitToBe();
         }
 
         internal void AssertExportMessage()
@@ -48,11 +53,7 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
         internal void AssertPageInvalid(int pageNumber, int expectedFinalPage)
         {
-            InteractionsService service = new InteractionsService();
-
-            CurrentPageNumber.SetNumber(pageNumber);
-            CurrentPageNumber.Focus();
-            service.SendKeys(Keys.Enter).Perform();
+            SetPage(pageNumber);
             AssertCurrentPageNumberIs(expectedFinalPage);
         }
 

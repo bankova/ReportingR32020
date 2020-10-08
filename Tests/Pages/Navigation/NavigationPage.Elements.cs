@@ -2,6 +2,7 @@
 {
     public partial class NavigationPage : AssertedNavigatablePage
     {
+        private ReportPage _reportPage = new ReportPage();
         public override string Url => "http://localhost:53895/Html5ReportViewerProduct.html";
         internal Anchor StopRenderingAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_stopRendering']");
         internal Anchor RefreshAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_refresh']");
