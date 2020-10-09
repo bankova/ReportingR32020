@@ -7,14 +7,7 @@
         internal Div BikesCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_3'][text()='Bikes']");
         internal Div ClothingCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_4'][text()='Clothing']");
         internal Div ComponentsCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_5'][text()='Components']");
-
-        ////internal Div GetSheetNumber(int page)
-        ////{
-        ////    Div pageSheet = Element.CreateByClass<Div>($"sheet page{page}");
-
-        ////    return pageSheet;
-        ////}
-
+        internal Div PageContainer => Element.CreateByClass<Div>("trv-page-container");
         internal Div GetSheetNumber(int page)
         {
             Div pageSheet = Element.CreateByXpath<Div>($"//div[@data-page={page}]");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bellatrix.Web.NUnit.Tests.ProductCatalogue.Data;
 using OpenQA.Selenium;
+using ReportViewer.Tests.Common;
 
 namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
@@ -39,16 +40,16 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
         {
             AssertCurrentPageNumberIs(1);
 
-            GotoFirstPageAnchor.ToBeDisabled();
-            GotoPreviousPageAnchor.ToBeDisabled();
+            GotoFirstPageLi.AssertIsDisabled();
+            GotoPreviousPageLi.AssertIsDisabled();
         }
 
         internal void AssertLastPage(int number = 5)
         {
             AssertCurrentPageNumberIs(number);
 
-            GotoLastPageAnchor.ToBeDisabled();
-            GotoNextPageAnchor.ToBeDisabled();
+            GotoLastPageLi.AssertIsDisabled();
+            GotoNextPageLi.AssertIsDisabled();
         }
 
         internal void AssertPageInvalid(int pageNumber, int expectedFinalPage)
