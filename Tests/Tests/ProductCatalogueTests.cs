@@ -32,15 +32,14 @@ namespace Bellatrix.Web.NUnit.Tests
         [Test]
         public void Export_Should()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\ProductCatalog.en.pdf";
-            System.IO.File.Delete(path);
-            Assert.IsFalse(System.IO.File.Exists(path));
+            string fileName = "ProductCatalog.en.pdf";
+            FileUtilities.AssertFileNotExistInDownloadsPath(fileName);
 
             App.InteractionsService.SendKeys(_navigationPage.ExportAnchor, Keys.Space).Perform();
             _navigationPage.ExportPdfAnchor.ClickVisibleAnchor();
             _navigationPage.AssertExportMessage();
 
-            Wait.Until(() => System.IO.File.Exists(path));
+            FileUtilities.AssertFileExistInDownloadsPath(fileName);
         }
 
         [Test]
@@ -61,8 +60,7 @@ namespace Bellatrix.Web.NUnit.Tests
 
             _navigationPage.WaitForNewBrowserWindowToConnect();
             _navigationPage.AssertWindowCount(2);
-            ////App.BrowserService.SwitchToFrame(_printPage.PrintFrame);
-            ////_printPage.PrintHeader.EnsureInnerHtmlContains("22");
+
             ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
         }
 
