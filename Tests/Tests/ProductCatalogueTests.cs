@@ -34,7 +34,7 @@ namespace Bellatrix.Web.NUnit.Tests
             FileUtilities.AssertFileNotExistInDownloadsPath(fileName);
 
             _navigationPage.ExportAnchor.MouseClick();
-            _navigationPage.ExportPdfAnchor.ClickVisibleAnchor();
+            _navigationPage.ExportAnchorFileType("PDF").ClickVisibleAnchor();
             _navigationPage.AssertExportMessage();
 
             FileUtilities.AssertFileExistInDownloadsPath(fileName);
@@ -98,10 +98,10 @@ namespace Bellatrix.Web.NUnit.Tests
 
             _navigationPage.AssertFirstPage();
 
-            _navigationPage.GotoLastPageAnchor.Click();
+            _navigationPage.GotoLastPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertLastPage(lastPageCount);
 
-            _navigationPage.GotoFirstPageAnchor.Click();
+            _navigationPage.GotoFirstPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertFirstPage();
 
             for (int i = 2; i <= lastPageCount; i++)
@@ -143,13 +143,13 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.GotoNextPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertCurrentPageNumberIs(2);
 
-            _navigationPage.GotoLastPageAnchor.Click();
+            _navigationPage.GotoLastPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertLastPage(lastPageCount);
 
             _navigationPage.GotoPreviousPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertCurrentPageNumberIs(lastPageCount - 1);
 
-            _navigationPage.GotoFirstPageAnchor.Click();
+            _navigationPage.GotoFirstPageAnchor.ClickVisibleAnchor();
             _navigationPage.AssertFirstPage();
         }
 
@@ -165,6 +165,8 @@ namespace Bellatrix.Web.NUnit.Tests
         [Test]
         public void CancelReportProcessing_Should()
         {
+            _reportPage.PageContainer.EnsureInnerTextIsNot(string.Empty);
+
             _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
             _navigationPage.StopRenderingAnchor.ClickVisibleAnchor();
 

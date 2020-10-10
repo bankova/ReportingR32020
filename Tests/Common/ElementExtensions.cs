@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bellatrix.Utilities;
 using Bellatrix.Web;
+using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 
 namespace ReportViewer.Tests.Common
@@ -24,13 +25,13 @@ namespace ReportViewer.Tests.Common
             action.MoveToElement(element.WrappedElement).Click().Perform();
         }
 
-        internal static void AssertIsDisabled(this Element element)
+        internal static void WaitUntilIsDisabled(this Element element)
         {
             string actualClass = element.CssClass;
             string expectedClass = "disabled";
-            bool containsDisabledClass = actualClass.Contains(expectedClass);
 
-            Wait.Until(() => containsDisabledClass);
+            Func<bool> containsDisabledClass = () => actualClass.Contains(expectedClass);
+            Wait.Until(containsDisabledClass);
         }
     }
 }

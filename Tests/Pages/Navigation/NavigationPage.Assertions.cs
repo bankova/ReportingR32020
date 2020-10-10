@@ -22,7 +22,7 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
         internal void AssertExportMessage()
         {
-            TooltipActionMessage.EnsureInnerTextIs("Preparing document to download. Please wait...");
+            TooltipActionMessage.EnsureInnerTextIs(Messages.PrepareDocumentToDownload);
         }
 
         internal void AssertStopRenderingMessage()
@@ -32,12 +32,11 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
         internal void AssertCurrentPageNumberIs(int expectedPage)
         {
-            ////System.Threading.Thread.Sleep(200);
-            Func<bool> pageNumbersAreEqual = () =>
-                {
+            bool pageNumbersAreEqual()
+            {
                 int actualPage = (int)CurrentPageNumber.GetNumber();
                 return expectedPage == actualPage;
-                };
+            }
 
             Wait.Until(pageNumbersAreEqual);
 
@@ -53,16 +52,16 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
             _reportPage.GetDataPageNumber(1).EnsureInnerHtmlContains("Table of Contents");
 
-            GotoFirstPageLi.AssertIsDisabled();
-            GotoPreviousPageLi.AssertIsDisabled();
+            GotoFirstPageLi.WaitUntilIsDisabled();
+            GotoPreviousPageLi.WaitUntilIsDisabled();
         }
 
         internal void AssertLastPage(int number = 5)
         {
             AssertCurrentPageNumberIs(number);
 
-            GotoLastPageLi.AssertIsDisabled();
-            GotoNextPageLi.AssertIsDisabled();
+            GotoLastPageLi.WaitUntilIsDisabled();
+            GotoNextPageLi.WaitUntilIsDisabled();
         }
 
         internal void AssertPageInvalid(int pageNumber, int expectedFinalPage)
