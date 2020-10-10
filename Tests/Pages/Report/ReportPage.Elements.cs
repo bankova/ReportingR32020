@@ -2,7 +2,8 @@
 {
     public partial class ReportPage : Page
     {
-        internal Div TableOfContents => Element.CreateByXpath<Div>("//div[@text()='Table of Contents']");
+        internal Div TableOfContents => Element.CreateByXpath<Div>("//div[text()='Table of Contents']");
+        internal Element ClothingCategoryInContent => GetSheetNumber(1).CreateByXpath<Element>("//div[@data-id='trTocItem_1']//*[text()='Clothing']");
         internal Div AccessoriesCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_2'][text()='Accessories']");
         internal Div BikesCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_3'][text()='Bikes']");
         internal Div ClothingCategory => Element.CreateByXpath<Div>("//div[@data-id='textBoxProductCategoryLabel_4'][text()='Clothing']");

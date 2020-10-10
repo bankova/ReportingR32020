@@ -33,7 +33,7 @@ namespace Bellatrix.Web.NUnit.Tests
             string fileName = "ProductCatalog.en.pdf";
             FileUtilities.AssertFileNotExistInDownloadsPath(fileName);
 
-            App.InteractionsService.SendKeys(_navigationPage.ExportAnchor, Keys.Space).Perform();
+            _navigationPage.ExportAnchor.MouseClick();
             _navigationPage.ExportPdfAnchor.ClickVisibleAnchor();
             _navigationPage.AssertExportMessage();
 
@@ -62,11 +62,6 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.PrintPreviewApp.EnsureIsVisible();
 
             ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
-
-            App.InteractionsService.SendKeys(Keys.Tab).Perform();
-            App.InteractionsService.SendKeys(Keys.Enter).Perform();
-
-            _navigationPage.WaitForWindowCountToBe(1);
         }
 
         [Test]
@@ -86,17 +81,37 @@ namespace Bellatrix.Web.NUnit.Tests
         [Test]
         public void PageNavigation_Should()
         {
+            int lastPageCount = _navigationPage.GetLastPage();
+
             _navigationPage.AssertFirstPage();
 
-            _navigationPage.GotoNextPageAnchor.ClickVisibleAnchor();
-
-            _navigationPage.AssertCurrentPageNumberIs(2);
             _navigationPage.GotoLastPageAnchor.Click();
+            _navigationPage.AssertLastPage(lastPageCount);
 
-            _navigationPage.AssertLastPage(5);
+            _navigationPage.GotoFirstPageAnchor.Click();
+            _navigationPage.AssertFirstPage();
+
+            for (int i = 2; i <= lastPageCount; i++)
+            {
+                _navigationPage.GotoNextPageAnchor.ClickVisibleAnchor();
+                _navigationPage.AssertCurrentPageNumberIs(i);
+            }
+
+            for (int i = lastPageCount - 1; i >= 2; i--)
+            {
+                _navigationPage.GotoPreviousPageAnchor.ClickVisibleAnchor();
+                _navigationPage.AssertCurrentPageNumberIs(i);
+            }
 
             _navigationPage.SetPage(1);
             _navigationPage.AssertFirstPage();
+        }
+
+        [Test]
+        public void PageNavigationThroughContent_Should()
+        {
+            _reportPage.ClothingCategoryInContent.MouseClick();
+            _navigationPage.AssertCurrentPageNumberIs(4);
         }
 
         [Test]
@@ -117,18 +132,6 @@ namespace Bellatrix.Web.NUnit.Tests
 
             _navigationPage.AssertPageInvalid(6, 5);
             _navigationPage.AssertPageInvalid(0, 1);
-        }
-
-        [Test]
-        public void PagesHaveContent_Should()
-        {
-            _reportPage.GetSheetNumber(1).EnsureInnerHtmlContains("Table of Contents");
-            for (int i = 2; i <= Messages.TotalPageCountViewer; i++)
-            {
-                _navigationPage.GotoNextPageAnchor.ClickVisibleAnchor();
-                _reportPage.GetSheetNumber(i).EnsureInnerHtmlContains("List Price");
-                Console.WriteLine(i);
-            }
         }
 
         [Test]

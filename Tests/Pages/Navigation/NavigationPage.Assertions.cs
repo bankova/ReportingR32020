@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Bellatrix.Utilities;
 using Bellatrix.Web.NUnit.Tests.ProductCatalogue.Data;
 using OpenQA.Selenium;
 using ReportViewer.Tests.Common;
@@ -31,8 +32,11 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
         internal void AssertCurrentPageNumberIs(int expectedPage)
         {
-            System.Threading.Thread.Sleep(200);
+            ////System.Threading.Thread.Sleep(200);
             int actualPage = (int)CurrentPageNumber.GetNumber();
+            bool areEqual = expectedPage == actualPage;
+
+            Wait.Until(() => areEqual);
             Assert.AreEqual(expectedPage, actualPage);
 
             if (expectedPage > 1)

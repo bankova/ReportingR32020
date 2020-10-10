@@ -16,6 +16,14 @@ namespace ReportViewer.Tests.Common
             anchor.Click();
         }
 
+        internal static void MouseClick(this Element element)
+        {
+            element.ToBeVisible().ToBeClickable().WaitToBe();
+
+            var action = new Actions(element.WrappedDriver);
+            action.MoveToElement(element.WrappedElement).Click().Perform();
+        }
+
         internal static void AssertIsDisabled(this Element element)
         {
             string actualClass = element.CssClass;

@@ -39,5 +39,13 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
             CurrentPageNumber.Focus();
             service.SendKeys(Keys.Enter).Perform();
         }
+
+        internal int GetLastPage()
+        {
+            CurrentPageNumber.ToBeVisible().WaitToBe();
+            int actual = int.Parse(AllPagesCountSpan.InnerText);
+
+            return actual;
+        }
     }
 }
