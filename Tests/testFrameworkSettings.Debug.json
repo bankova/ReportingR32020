@@ -110,7 +110,7 @@
     "defaultSimilarity": "0.7"
   },
   "machineAutomationSettings": {
-    "isEnabled": "true",
+    "isEnabled": "false",
     "packagesToBeInstalled": [ "googlechrome", "firefox --version=65.0.2", "opera" ]
   },
   "processCleanupSettings": {

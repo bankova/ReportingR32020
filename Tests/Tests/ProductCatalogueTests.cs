@@ -7,6 +7,7 @@ using Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using ReportViewer.Tests.Common;
 
@@ -18,10 +19,12 @@ namespace Bellatrix.Web.NUnit.Tests
     {
         private NavigationPage _navigationPage;
         private ReportPage _reportPage;
+        private PrintPage _printPage;
         public override void TestInit()
         {
             _navigationPage = App.GoTo<NavigationPage>();
             _reportPage = new ReportPage();
+            _printPage = new PrintPage();
 
             _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountViewer);
             _navigationPage.WaitMessageLoadedPagesNotVisible(Messages.TotalPageCountViewer);
@@ -68,8 +71,8 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.WaitForWindowCountToBe(2);
             _navigationPage.AssertWindowCount(2);
             _navigationPage.SwitchToLastWindow();
-            _navigationPage.PrintPreviewApp.EnsureIsVisible();
-
+            _printPage.PrintPreviewApp.EnsureIsVisible();
+            _printPage.AssertPrintPagesCountText();
             ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
 
             App.InteractionsService.SendKeys(Keys.Tab).Perform();

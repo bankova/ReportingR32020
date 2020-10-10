@@ -8,8 +8,12 @@ using OpenQA.Selenium;
 
 namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
-    public partial class NavigationPage
+    public partial class NavigationPage : AssertedNavigatablePage
     {
+        private ReportPage _reportPage = new ReportPage();
+        private PrintPage _printPage = new PrintPage();
+        public override string Url => "http://localhost:53895/Html5ReportViewerProduct.html";
+
         internal int GetWindowCount()
         {
             object[] allWindows = Browser.WrappedDriver.WindowHandles.ToArray();

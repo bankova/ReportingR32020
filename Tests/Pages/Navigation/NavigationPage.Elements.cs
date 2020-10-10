@@ -1,9 +1,7 @@
 ﻿namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 {
-    public partial class NavigationPage : AssertedNavigatablePage
+    public partial class NavigationPage
     {
-        private ReportPage _reportPage = new ReportPage();
-        public override string Url => "http://localhost:53895/Html5ReportViewerProduct.html";
         private string _menubarWidgetXPath = "//div[@class='trv-nav k-widget']";
         internal Div NavWidget => Element.CreateByXpath<Div>(_menubarWidgetXPath);
         internal Anchor StopRenderingAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_stopRendering']");
@@ -28,7 +26,6 @@
         internal TextField SearchInput => Element.CreateByClass<TextField>("k-input");
         internal Span SearchResults => Element.CreateByClass<Span>("trv-search-dialog-results-label");
         internal Div TooltipActionMessage => Element.CreateByClass<Div>("trv-error-message");
-        internal Element PrintPreviewApp => Element.CreateByXpath<Element>("//print-preview-app");
 
         internal Div TotalPageLoadedMessage(int totalPages)
         {
