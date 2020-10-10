@@ -33,15 +33,17 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
         internal void AssertCurrentPageNumberIs(int expectedPage)
         {
             ////System.Threading.Thread.Sleep(200);
-            int actualPage = (int)CurrentPageNumber.GetNumber();
-            bool areEqual = expectedPage == actualPage;
+            Func<bool> pageNumbersAreEqual = () =>
+                {
+                int actualPage = (int)CurrentPageNumber.GetNumber();
+                return expectedPage == actualPage;
+                };
 
-            Wait.Until(() => areEqual);
-            Assert.AreEqual(expectedPage, actualPage);
+            Wait.Until(pageNumbersAreEqual);
 
             if (expectedPage > 1)
             {
-                _reportPage.GetSheetNumber(expectedPage).EnsureInnerHtmlContains("List Price");
+                _reportPage.GetDataPageNumber(expectedPage).EnsureInnerHtmlContains("List Price");
             }
         }
 
@@ -49,7 +51,7 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
         {
             AssertCurrentPageNumberIs(1);
 
-            _reportPage.GetSheetNumber(1).EnsureInnerHtmlContains("Table of Contents");
+            _reportPage.GetDataPageNumber(1).EnsureInnerHtmlContains("Table of Contents");
 
             GotoFirstPageLi.AssertIsDisabled();
             GotoPreviousPageLi.AssertIsDisabled();

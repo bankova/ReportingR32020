@@ -30,7 +30,7 @@ namespace Bellatrix.Web.NUnit.Tests
         [Test]
         public void Export_Should()
         {
-            string fileName = "ProductCatalog.en.pdf";
+            string fileName = _reportPage.GetReportName() + ".pdf";
             FileUtilities.AssertFileNotExistInDownloadsPath(fileName);
 
             _navigationPage.ExportAnchor.MouseClick();
@@ -41,10 +41,18 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void TogglePrintPreview_Should()
+        public void Scale_Should()
         {
-            _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
-            _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountPrintPreview);
+            _reportPage.AssertExpectedScaleStyle(1);
+
+            _navigationPage.ZoomInAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(1.5);
+
+            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(1);
+
+            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(0.75);
         }
 
         [Test]
@@ -62,6 +70,11 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.PrintPreviewApp.EnsureIsVisible();
 
             ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
+
+            App.InteractionsService.SendKeys(Keys.Tab).Perform();
+            App.InteractionsService.SendKeys(Keys.Enter).Perform();
+            _navigationPage.WaitForWindowCountToBe(1);
+            _navigationPage.SwitchToLastWindow();
         }
 
         [Test]
@@ -112,6 +125,10 @@ namespace Bellatrix.Web.NUnit.Tests
         {
             _reportPage.ClothingCategoryInContent.MouseClick();
             _navigationPage.AssertCurrentPageNumberIs(4);
+
+            _reportPage.TreeExpandArrow.MouseClick();
+            _reportPage.TreeBikesCategory.MouseClick();
+            _navigationPage.AssertCurrentPageNumberIs(3);
         }
 
         [Test]
@@ -120,9 +137,20 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
             _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountPrintPreview);
 
+            int lastPageCount = _navigationPage.GetLastPage();
             _navigationPage.AssertFirstPage();
+
+            _navigationPage.GotoNextPageAnchor.ClickVisibleAnchor();
+            _navigationPage.AssertCurrentPageNumberIs(2);
+
             _navigationPage.GotoLastPageAnchor.Click();
-            _navigationPage.AssertLastPage(22);
+            _navigationPage.AssertLastPage(lastPageCount);
+
+            _navigationPage.GotoPreviousPageAnchor.ClickVisibleAnchor();
+            _navigationPage.AssertCurrentPageNumberIs(lastPageCount - 1);
+
+            _navigationPage.GotoFirstPageAnchor.Click();
+            _navigationPage.AssertFirstPage();
         }
 
         [Test]

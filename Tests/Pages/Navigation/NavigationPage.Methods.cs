@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using Bellatrix.Utilities;
 using OpenQA.Selenium;
 
 namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
@@ -24,11 +25,16 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
         {
             int countofWindows = GetWindowCount();
 
-            while (countofWindows != expected)
+            Func<bool> expectedWindowsCountFound = () =>
             {
+                bool expectedEqualsActual = countofWindows == expected;
                 System.Threading.Thread.Sleep(100);
                 countofWindows = GetWindowCount();
-            }
+
+                return expectedEqualsActual;
+            };
+
+            Wait.Until(expectedWindowsCountFound);
         }
 
         internal void SetPage(int pageNumber)

@@ -14,6 +14,8 @@
         internal Anchor GotoPreviousPageAnchor => Element.CreateByXpath<Anchor>("//li[@aria-label='Previous page']//a");
         internal Anchor GotoNextPageAnchor => Element.CreateByXpath<Anchor>("//li[@aria-label='Next page']//a");
         internal Anchor GotoLastPageAnchor => Element.CreateByXpath<Anchor>("//li[@aria-label='Last page']//a");
+        internal Anchor ZoomInAnchor => Element.CreateByXpath<Anchor>("//li[@aria-label='Zoom in']//a");
+        internal Anchor ZoomOutAnchor => Element.CreateByXpath<Anchor>("//li[@aria-label='Zoom out']//a");
         internal Number CurrentPageNumber => Element.CreateByXpath<Number>("//input[@data-role='telerik_ReportViewer_PageNumberInput'][@type='number']");
         internal Span AllPagesCountSpan => Element.CreateByXpath<Span>("//span[@data-role='telerik_ReportViewer_PageCountLabel']");
         internal Anchor ExportAnchor => Element.CreateByXpath<Anchor>("//div[@class='trv-nav k-widget']//a[@data-command='telerik_ReportViewer_export']");
