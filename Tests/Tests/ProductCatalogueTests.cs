@@ -13,7 +13,7 @@ using ReportViewer.Tests.Common;
 namespace Bellatrix.Web.NUnit.Tests
 {
     [TestFixture]
-    [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
     public class ProductCatalogueTests : WebTest
     {
         private NavigationPage _navigationPage;
@@ -30,11 +30,12 @@ namespace Bellatrix.Web.NUnit.Tests
         [Test]
         public void Export_Should()
         {
-            string fileName = _reportPage.GetReportName() + ".pdf";
+            string fileExtension = "pdf";
+            string fileName = _reportPage.GetReportName() + "." + fileExtension;
             FileUtilities.AssertFileNotExistInDownloadsPath(fileName);
 
             _navigationPage.ExportAnchor.MouseClick();
-            _navigationPage.ExportAnchorFileType("PDF").ClickVisibleAnchor();
+            _navigationPage.ExportAnchorFileType(fileExtension.ToUpper()).ClickVisibleAnchor();
             _navigationPage.AssertExportMessage();
 
             FileUtilities.AssertFileExistInDownloadsPath(fileName);
@@ -92,7 +93,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigation_Should()
+        public void PageNavigateValid_Should()
         {
             int lastPageCount = _navigationPage.GetLastPage();
 
@@ -121,7 +122,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigationThroughContent_Should()
+        public void PageNavigateThroughContent_Should()
         {
             _reportPage.ClothingCategoryInContent.MouseClick();
             _navigationPage.AssertCurrentPageNumberIs(4);
@@ -132,7 +133,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigationPrintPreview_Should()
+        public void PageNavigateValid_PrintPreview_Should()
         {
             _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
             _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountPrintPreview);
@@ -154,7 +155,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigation_Invalid()
+        public void PageNavigateInvalid_ShouldGoToNearestValidPage()
         {
             _navigationPage.CurrentPageNumber.ToBeVisible().WaitToBe();
 
@@ -163,7 +164,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void CancelReportProcessing_Should()
+        public void CancelReportProcessing_ShouldStopAndShowNoContent()
         {
             _reportPage.PageContainer.EnsureInnerTextIsNot(string.Empty);
 
@@ -176,7 +177,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void SearchPrintPreview_Should()
+        public void SearchPrintPreview_ShouldFindResultsAndScrollToFirst()
         {
             string searchText = "Weatherproof";
             _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
