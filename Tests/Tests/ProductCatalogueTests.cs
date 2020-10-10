@@ -18,12 +18,10 @@ namespace Bellatrix.Web.NUnit.Tests
     {
         private NavigationPage _navigationPage;
         private ReportPage _reportPage;
-        private PrintDialog _printPage;
         public override void TestInit()
         {
             _navigationPage = App.GoTo<NavigationPage>();
             _reportPage = new ReportPage();
-            _printPage = new PrintDialog();
 
             _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountViewer);
             _navigationPage.WaitMessageLoadedPagesNotVisible(Messages.TotalPageCountViewer);
@@ -58,10 +56,17 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.PrintAnchor.ClickVisibleAnchor();
             _navigationPage.TooltipActionMessage.EnsureInnerTextIs(Messages.PrintPrepareDocumentMessage);
 
-            _navigationPage.WaitForNewBrowserWindowToConnect();
+            _navigationPage.WaitForWindowCountToBe(2);
             _navigationPage.AssertWindowCount(2);
+            _navigationPage.SwitchToLastWindow();
+            _navigationPage.PrintPreviewApp.EnsureIsVisible();
 
             ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
+
+            App.InteractionsService.SendKeys(Keys.Tab).Perform();
+            App.InteractionsService.SendKeys(Keys.Enter).Perform();
+
+            _navigationPage.WaitForWindowCountToBe(1);
         }
 
         [Test]

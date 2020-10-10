@@ -34,11 +34,18 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
             System.Threading.Thread.Sleep(200);
             int actualPage = (int)CurrentPageNumber.GetNumber();
             Assert.AreEqual(expectedPage, actualPage);
+
+            if (expectedPage > 1)
+            {
+                _reportPage.GetSheetNumber(expectedPage).EnsureInnerHtmlContains("List Price");
+            }
         }
 
         internal void AssertFirstPage()
         {
             AssertCurrentPageNumberIs(1);
+
+            _reportPage.GetSheetNumber(1).EnsureInnerHtmlContains("Table of Contents");
 
             GotoFirstPageLi.AssertIsDisabled();
             GotoPreviousPageLi.AssertIsDisabled();

@@ -25,6 +25,7 @@
         internal TextField SearchInput => Element.CreateByClass<TextField>("k-input");
         internal Span SearchResults => Element.CreateByClass<Span>("trv-search-dialog-results-label");
         internal Div TooltipActionMessage => Element.CreateByClass<Div>("trv-error-message");
+        internal Element PrintPreviewApp => Element.CreateByXpath<Element>("//print-preview-app");
 
         internal Div TotalPageLoadedMessage(int totalPages)
         {

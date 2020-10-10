@@ -34,21 +34,16 @@ namespace ReportViewer.Tests.Common
             string filePath = dirPath + fileName;
 
             Wait.Until(() => System.IO.File.Exists(filePath), 20);
+
+            long fileSize = new FileInfo(filePath).Length;
+            Assert.IsTrue(fileSize > 0);
         }
 
         private static void AssertFileNotExistInFolder(string downloadsPath, string fileName)
         {
-            string fileNameWithWildCard = fileName.Replace(".", "*.");
-            var files = Directory.GetFiles(downloadsPath, fileNameWithWildCard);
-            if (files.Length > 0)
-            {
-                foreach (var file in files)
-                {
-                    File.Delete(Path.Combine(downloadsPath, file));
-                }
-            }
+            File.Delete(Path.Combine(downloadsPath, fileName));
 
-            Assert.IsFalse(System.IO.File.Exists(downloadsPath + fileName), "File exists but should not exist.");
+            Assert.IsFalse(File.Exists(downloadsPath + fileName), "File exists but should not exist.");
         }
     }
 }

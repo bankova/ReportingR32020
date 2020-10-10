@@ -15,12 +15,16 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
             return allWindows.Length;
         }
 
-        internal void WaitForNewBrowserWindowToConnect()
+        internal void SwitchToLastWindow()
+        {
+            Browser.WrappedDriver.SwitchTo().Window(Browser.WrappedDriver.WindowHandles.Last());
+        }
+
+        internal void WaitForWindowCountToBe(int expected = 2)
         {
             int countofWindows = GetWindowCount();
-            int expectedNewWindowsCount = countofWindows + 1;
 
-            while (countofWindows < expectedNewWindowsCount)
+            while (countofWindows != expected)
             {
                 System.Threading.Thread.Sleep(100);
                 countofWindows = GetWindowCount();

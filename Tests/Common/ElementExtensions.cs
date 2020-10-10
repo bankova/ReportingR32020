@@ -12,6 +12,7 @@ namespace ReportViewer.Tests.Common
         internal static void ClickVisibleAnchor(this Anchor anchor)
         {
             anchor.ToBeVisible().ToBeClickable().WaitToBe();
+
             anchor.Click();
         }
 
@@ -20,6 +21,7 @@ namespace ReportViewer.Tests.Common
             string actualClass = element.CssClass;
             string expectedClass = "disabled";
             bool containsDisabledClass = actualClass.Contains(expectedClass);
+
             Wait.Until(() => containsDisabledClass);
         }
     }
