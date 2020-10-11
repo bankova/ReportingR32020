@@ -1,5 +1,4 @@
 ﻿using System;
-using Bellatrix.MachineAutomation;
 using NUnit.Framework;
 
 namespace Bellatrix.Web.NUnit.Tests
