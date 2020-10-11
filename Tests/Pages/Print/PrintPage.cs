@@ -9,10 +9,16 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
     {
         internal Element PrintPreviewApp => Element.CreateByXpath<Element>("//print-preview-app");
 
-        internal void AssertPrintPagesCountText(string expectedText = "22 sheets of paper")
+        internal void AssertPrintPagesCountText(int pagesCount = 22)
         {
+            string sheetsofPaperText = " sheets of paper";
+            int expectedPagesCountIfPrintOnBothSides = pagesCount / 2;
             var actualText = new JavaScriptService().Execute("return document.querySelector('body>print-preview-app').shadowRoot.querySelector('#sidebar').shadowRoot.querySelector('print-preview-header').shadowRoot.querySelector('span.summary').textContent;");
-            Assert.AreEqual(expectedText, actualText);
+            string expectedIfPrintingOnOneSideOnly = pagesCount + sheetsofPaperText;
+            string expectedIfPrintingOnBothSides = expectedPagesCountIfPrintOnBothSides + sheetsofPaperText;
+
+            bool areEqual = expectedIfPrintingOnOneSideOnly.Equals(actualText) || expectedIfPrintingOnBothSides.Equals(actualText);
+            Assert.IsTrue(areEqual, "Page sheets text different that expected");
         }
     }
 }

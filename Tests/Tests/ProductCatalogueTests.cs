@@ -130,6 +130,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
+        [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
         public void Print_ShouldOpenDialog()
         {
             _navigationPage.AssertWindowCount(1);
