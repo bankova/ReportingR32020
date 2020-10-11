@@ -9,7 +9,7 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
     {
         internal void AssertExpectedScaleStyle(double expectedScale)
         {
-            GetSheetNumber(1).EnsureStyleContains($"transform: scale({expectedScale}, {expectedScale});");
+            GetSheetNumber(1).EnsureStyleContains($"transform: scale({expectedScale}");
         }
     }
 }

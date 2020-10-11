@@ -52,7 +52,7 @@ namespace Bellatrix.Web.NUnit.Tests.ProductCatalogue.Pages
 
         internal int GetLastPage()
         {
-            CurrentPageNumber.ToBeVisible().WaitToBe();
+            AllPagesCountSpan.ToBeVisible().WaitToBe();
             int actual = int.Parse(AllPagesCountSpan.InnerText);
 
             return actual;

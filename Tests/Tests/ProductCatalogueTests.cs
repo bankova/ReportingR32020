@@ -31,7 +31,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void Export_Should()
+        public void Export_ShouldSaveFile()
         {
             string fileExtension = "pdf";
             string fileName = _reportPage.GetReportName() + "." + fileExtension;
@@ -45,44 +45,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void Scale_Should()
-        {
-            _reportPage.AssertExpectedScaleStyle(1);
-
-            _navigationPage.ZoomInAnchor.ClickVisibleAnchor();
-            _reportPage.AssertExpectedScaleStyle(1.5);
-
-            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
-            _reportPage.AssertExpectedScaleStyle(1);
-
-            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
-            _reportPage.AssertExpectedScaleStyle(0.75);
-        }
-
-        [Test]
-        public void Print_ShouldOpenDialog()
-        {
-            _navigationPage.AssertWindowCount(1);
-
-            _navigationPage.TooltipActionMessage.EnsureInnerTextIsNot(Messages.PrintPrepareDocumentMessage);
-            _navigationPage.PrintAnchor.ClickVisibleAnchor();
-            _navigationPage.TooltipActionMessage.EnsureInnerTextIs(Messages.PrintPrepareDocumentMessage);
-
-            _navigationPage.WaitForWindowCountToBe(2);
-            _navigationPage.AssertWindowCount(2);
-            _navigationPage.SwitchToLastWindow();
-            _printPage.PrintPreviewApp.EnsureIsVisible();
-            _printPage.AssertPrintPagesCountText();
-            ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
-
-            App.InteractionsService.SendKeys(Keys.Tab).Perform();
-            App.InteractionsService.SendKeys(Keys.Enter).Perform();
-            _navigationPage.WaitForWindowCountToBe(1);
-            _navigationPage.SwitchToLastWindow();
-        }
-
-        [Test]
-        public void Refresh_Should()
+        public void Refresh_ShouldShowInitialState()
         {
             _navigationPage.AssertFirstPage();
 
@@ -96,7 +59,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigateValid_Should()
+        public void PageNavigateValid_ShouldAllPageNavLinksWork()
         {
             int lastPageCount = _navigationPage.GetLastPage();
 
@@ -125,7 +88,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigateThroughContent_Should()
+        public void PageNavigateThroughContent_ShouldGoToExpectedPage()
         {
             _reportPage.ClothingCategoryInContent.MouseClick();
             _navigationPage.AssertCurrentPageNumberIs(4);
@@ -136,7 +99,7 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
-        public void PageNavigateValid_PrintPreview_Should()
+        public void PageNavigateValid_PrintPreview_ShouldAllPageNavLinksWork()
         {
             _navigationPage.TogglePrintPreviewAnchor.ClickVisibleAnchor();
             _navigationPage.WaitMessageLoadedPagesVisible(Messages.TotalPageCountPrintPreview);
@@ -167,6 +130,26 @@ namespace Bellatrix.Web.NUnit.Tests
         }
 
         [Test]
+        public void Print_ShouldOpenDialog()
+        {
+            _navigationPage.AssertWindowCount(1);
+
+            _navigationPage.TooltipActionMessage.EnsureInnerTextIsNot(Messages.PrintPrepareDocumentMessage);
+            _navigationPage.PrintAnchor.ClickVisibleAnchor();
+            _navigationPage.TooltipActionMessage.EnsureInnerTextIs(Messages.PrintPrepareDocumentMessage);
+
+            _navigationPage.WaitForWindowCountToBe(2);
+            _navigationPage.AssertWindowCount(2);
+            _navigationPage.SwitchToLastWindow();
+            _printPage.PrintPreviewApp.EnsureIsVisible();
+            _printPage.AssertPrintPagesCountText();
+
+            ////Screen.EnsureIsVisible("PrintPreviewChrome", similarity: 0.7, timeoutInSeconds: 20);
+
+            ClosePrintDialog();
+        }
+
+        [Test]
         public void CancelReportProcessing_ShouldStopAndShowNoContent()
         {
             _reportPage.PageContainer.EnsureInnerTextIsNot(string.Empty);
@@ -193,6 +176,29 @@ namespace Bellatrix.Web.NUnit.Tests
             _navigationPage.SearchInput.SetText(searchText);
             _navigationPage.SearchResults.EnsureInnerTextContains("Result 1 of 3");
             _navigationPage.AssertCurrentPageNumberIs(2);
+        }
+
+        [Test]
+        public void Scale_ShouldChangePageSize()
+        {
+            _reportPage.AssertExpectedScaleStyle(1);
+
+            _navigationPage.ZoomInAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(1.5);
+
+            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(1);
+
+            _navigationPage.ZoomOutAnchor.ClickVisibleAnchor();
+            _reportPage.AssertExpectedScaleStyle(0.75);
+        }
+
+        private void ClosePrintDialog()
+        {
+            App.InteractionsService.SendKeys(Keys.Tab).Perform();
+            App.InteractionsService.SendKeys(Keys.Enter).Perform();
+            _navigationPage.WaitForWindowCountToBe(1);
+            _navigationPage.SwitchToLastWindow();
         }
     }
 }

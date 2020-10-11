@@ -3,7 +3,6 @@
     public partial class NavigationPage
     {
         private string _menubarWidgetXPath = "//div[@class='trv-nav k-widget']";
-        internal Div NavWidget => Element.CreateByXpath<Div>(_menubarWidgetXPath);
         internal Anchor StopRenderingAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_stopRendering']");
         internal Anchor RefreshAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_refresh']");
         internal Anchor GotoFirstPageAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_goToFirstPage']");
@@ -18,7 +17,6 @@
         internal Span AllPagesCountSpan => Element.CreateByXpath<Span>(_menubarWidgetXPath + "//span[@data-role='telerik_ReportViewer_PageCountLabel']");
         internal Anchor ExportAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_export']");
         internal Anchor TogglePrintPreviewAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//li[@aria-label='Toggle print preview']//a");
-        internal Anchor ExportPdfAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command-parameter='PDF']");
         internal Anchor PrintAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//a[@data-command='telerik_ReportViewer_print']");
         internal Anchor ZoomInAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//li[@aria-label='Zoom in']//a");
         internal Anchor ZoomOutAnchor => Element.CreateByXpath<Anchor>(_menubarWidgetXPath + "//li[@aria-label='Zoom out']//a");
